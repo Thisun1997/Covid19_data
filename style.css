@@ -1,0 +1,53 @@
+* {
+    box-sizing: border-box
+  }
+
+  body{
+      width: 700px;
+      margin: 0px;
+      padding: 10px;
+      background-color: #F0F0F0;
+    
+  }
+  
+  
+   
+.container
+{
+    padding:20px;
+    float: center;
+    background-color: white;
+    height: fit-content;
+    margin: 10px;
+    overflow: auto;
+}
+
+.container2
+{
+    float: center;
+    background-color: white;
+    height: fit-content;
+    max-height: 255px;
+    overflow: auto;
+}
+
+.bg-primary, .bg-info
+{
+    text-align: center;
+    padding: 8px;
+    margin: 5px;
+}
+.tag
+{
+    font-size: 20px;
+}
+
+
+
+th{
+    text-align: center;
+    vertical-align: text-top !important;
+}
+td{
+    text-align: center;
+}
