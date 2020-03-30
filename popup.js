@@ -5,21 +5,25 @@ request.open('GET', 'https://www.hpb.health.gov.lk/api/get-current-statistical',
 request.onload = function() {
     var result = JSON.parse(this.response)
     if (request.status >= 200 && request.status < 400) {
-        var local_1 = [result.data.local_new_cases,result.data.local_total_cases,result.data.local_total_number_of_individuals_in_hospitals]
-        var topics_local_1 = ['New Cases', 'Total Cases', 'Suspects']
-        var img_local_1 = ['fas fa-ambulance',"fas fa-hospital","fas fa-diagnoses"]
-        var local_2 = [result.data.local_deaths,result.data.local_new_deaths,result.data.local_recovered]
-        var topics_local_2 = ['Total Deaths', 'New Deaths', 'Total Recovered']
-        var img_local_2 = ['fas fa-skull-crossbones',"fas fa-skull-crossbones","fas fa-running"]
+        var local_1 = [result.data.local_new_cases,result.data.local_total_cases,result.data.local_active_cases]
+        var topics_local_1 = ['New Cases', 'Total Cases', 'Active Cases']
+        var img_local_1 = ['fas fa-ambulance',"fas fa-hospital","fas fa-procedures"]
+
+        var local_2 = [result.data.local_recovered,result.data.local_deaths,result.data.local_total_number_of_individuals_in_hospitals]
+        var topics_local_2 = ['Total Recovered','Total Deaths','Suspects']
+        var img_local_2 = ["fas fa-running","fas fa-skull-crossbones","fas fa-diagnoses"]
+
         var global_1 = [result.data.global_new_cases,result.data.global_total_cases,result.data.global_deaths]
         var topics_global_1 = ['New Cases', 'Total Cases', 'Total Deaths']
         var img_global_1 = ['fas fa-ambulance',"fas fa-hospital","fas fa-skull-crossbones"]
+
         var global_2 = [result.data.global_new_deaths,result.data.global_recovered]
         var topics_global_2 = ['New Deaths', 'Total Recovered']
         var img_global_2 = ['fas fa-skull-crossbones',"fas fa-running"]
+
         var hos_data = result.data.hospital_data
         
-        console.log(local_1)
+        console.log(result)
         local1 = document.getElementById('local1')
         local2 = document.getElementById('local2')
         global1 = document.getElementById('global1')
