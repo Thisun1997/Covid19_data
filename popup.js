@@ -23,7 +23,6 @@ request.onload = function() {
 
         var hos_data = result.data.hospital_data
         
-        console.log(result)
         local1 = document.getElementById('local1')
         local2 = document.getElementById('local2')
         global1 = document.getElementById('global1')
@@ -70,6 +69,8 @@ request.onload = function() {
         template(3,local_2,topics_local_2,img_local_2,'bg-primary',local2)
         template(3,global_1,topics_global_1,img_global_1,'bg-info',global1)
         template(2,global_2,topics_global_2,img_global_2,'bg-info',global2)
+
+        document.getElementById('date').innerHTML = '<p>data as on <b>'+result.data.update_date_time +'</b></p>'
         
         for (i=0;i<hos_data.length;i++){
             const tr = document.createElement('tr')
