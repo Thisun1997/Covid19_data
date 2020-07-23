@@ -70,7 +70,7 @@ request.onload = function() {
         template(3,global_1,topics_global_1,img_global_1,'bg-info',global1)
         template(2,global_2,topics_global_2,img_global_2,'bg-info',global2)
 
-        document.getElementById('date').innerHTML = '<p>data as on <b>'+result.data.update_date_time +'</b></p>'
+        document.getElementById('date').innerHTML = '<p>updated on <b>'+result.data.update_date_time +'</b></p>'
         
         for (i=0;i<hos_data.length;i++){
             const tr = document.createElement('tr')
@@ -102,6 +102,73 @@ request.onload = function() {
             tr.appendChild(td5)
 
         }
+
+        var timeFrom = (X) => {
+            var dates = [];
+            for (let I = 0; I < Math.abs(X); I++) {
+                var date = new Date(new Date().getTime() - ((X >= 0 ? I : (I - I - I)) * 24 * 60 * 60 * 1000));
+                var day = date.getDate();
+                var month = date.getMonth()+1;
+                var year = date.getFullYear();
+                const fulld = (Number(year)+'-'+Number(month)+'-'+Number(day));
+                dates.push(fulld);
+            }
+            return dates;
+        }
+
+        var labels = timeFrom(7);
+
+        
+        var updated = new Date(result.data.update_date_time);
+        var day = updated.getDate();
+        var month = updated.getMonth()+1;
+        var year = updated.getFullYear();
+        const updated_fulld = (Number(year)+'-'+Number(month)+'-'+Number(day));
+        if (labels[0] == updated_fulld){
+            data[0] += result.data.local_new_cases
+        }else{
+
+        }
+        console.log(labels);
+        console.log(updated);
+
+        var ctx = document.getElementById("myChart").getContext('2d');
+              var myChart = new Chart(ctx, {
+              type: 'bar',
+              data: {
+              labels: labels,
+              datasets: [{
+              label: '# of Patients',
+              data: [12, 19, 3, 5, 2, 3],
+              backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+              'rgba(255,99,132,1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+              }]
+              },
+              options: {
+              scales: {
+              yAxes: [{
+              ticks: {
+              beginAtZero: true
+              }
+              }]
+              }
+              }
+              });
 
    }
 }
