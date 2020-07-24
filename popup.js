@@ -2,7 +2,7 @@ const app = document.getElementById('root')
 
 var request = new XMLHttpRequest()
 request.open('GET', 'https://www.hpb.health.gov.lk/api/get-current-statistical', true)
-request.onload = function() {
+request.onload = async function() {
     var result = JSON.parse(this.response)
     if (request.status >= 200 && request.status < 400) {
         var local_1 = [result.data.local_new_cases,result.data.local_total_cases,result.data.local_active_cases]
@@ -117,58 +117,62 @@ request.onload = function() {
         }
 
         var labels = timeFrom(7);
-
+        var c = result.data.local_new_cases
+        chrome.storage.sync.get(['data'], function(result) {
+            data = result.data;
+            if (labels[0] == data[7]){
+                data[0] = c
+            }else{
+                data = [c,] + data.slice(0,6) + [,labels[0]]
+            }
+            
+            chrome.storage.sync.set({'data': data}, function() {
+                console.log('Value is set to ' + data);
+            });
+            var dispay_data = data.slice(0,7)
+            var ctx = document.getElementById("myChart").getContext('2d');
+                  var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                    labels: labels,
+                    datasets: [{
+                    label: '# of Patients',
+                    data: dispay_data,
+                    backgroundColor: [
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(54, 162, 235, 0.2)'
+                    ],
+                    borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)'
+                    ],
+                    borderWidth: 1
+                    }]
+                    },
+                    options: {
+                    scales: {
+                    yAxes: [{
+                    ticks: {
+                    beginAtZero: true
+                    }
+                    }]
+                    }
+                    }
+                    });
+        });
         
-        var updated = new Date(result.data.update_date_time);
-        var day = updated.getDate();
-        var month = updated.getMonth()+1;
-        var year = updated.getFullYear();
-        const updated_fulld = (Number(year)+'-'+Number(month)+'-'+Number(day));
-        if (labels[0] == updated_fulld){
-            data[0] += result.data.local_new_cases
-        }else{
-
-        }
-        console.log(labels);
-        console.log(updated);
-
-        var ctx = document.getElementById("myChart").getContext('2d');
-              var myChart = new Chart(ctx, {
-              type: 'bar',
-              data: {
-              labels: labels,
-              datasets: [{
-              label: '# of Patients',
-              data: [12, 19, 3, 5, 2, 3],
-              backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(255, 159, 64, 0.2)'
-              ],
-              borderColor: [
-              'rgba(255,99,132,1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(255, 159, 64, 1)'
-              ],
-              borderWidth: 1
-              }]
-              },
-              options: {
-              scales: {
-              yAxes: [{
-              ticks: {
-              beginAtZero: true
-              }
-              }]
-              }
-              }
-              });
+      
+        
 
    }
 }
