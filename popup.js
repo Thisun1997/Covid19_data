@@ -117,13 +117,27 @@ request.onload = async function() {
         }
 
         var labels = timeFrom(7);
+        var date = new Date(result.data.update_date_time);
+        var day = date.getDate();
+        var month = date.getMonth()+1;
+        var year = date.getFullYear();
+        const updated_fulld = (Number(year)+'-'+Number(month)+'-'+Number(day));
         var c = result.data.local_new_cases
         chrome.storage.sync.get(['data'], function(result) {
             data = result.data;
             if (labels[0] == data[7]){
                 data[0] = c
             }else{
-                data = [c,] + data.slice(0,6) + [,labels[0]]
+                if(updated_fulld == data[7]){
+                    data[0] = c
+                }
+                else if(updated_fulld == labels[0]){
+                    var data0 = [c]
+                    var data1 = data.slice(0,6)
+                    var data2 = [labels[0]]
+                    var data = data0.concat(data1,data2)
+
+                }
             }
             
             chrome.storage.sync.set({'data': data}, function() {
@@ -139,13 +153,13 @@ request.onload = async function() {
                     label: '# of Patients',
                     data: dispay_data,
                     backgroundColor: [
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(54, 162, 235, 0.2)'
+                    'rgba(54, 162, 235, 0.3)',
+                    'rgba(54, 162, 235, 0.3)',
+                    'rgba(54, 162, 235, 0.3)',
+                    'rgba(54, 162, 235, 0.3)',
+                    'rgba(54, 162, 235, 0.3)',
+                    'rgba(54, 162, 235, 0.3)',
+                    'rgba(54, 162, 235, 0.3)'
                     ],
                     borderColor: [
                     'rgba(54, 162, 235, 1)',

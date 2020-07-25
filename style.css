@@ -27,7 +27,7 @@
     float: center;
     background-color: white;
     height: fit-content;
-    max-height: 255px;
+    max-height: 300px;
     overflow: auto;
 }
 
